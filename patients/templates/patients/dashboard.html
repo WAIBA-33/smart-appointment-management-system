@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+Patient Dashboard | Smart Appointment Management System
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body p-4">
+
+                    <h2 class="mb-4">
+                        Patient Dashboard
+                    </h2>
+
+                    <h5 class="mb-3">
+                        Welcome, {{ patient.name }}
+                    </h5>
+
+                    <hr>
+
+                    <div class="mb-3">
+                        <strong>Username:</strong>
+                        {{ patient.user.username }}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Full Name:</strong>
+                        {{ patient.name }}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Phone:</strong>
+                        {{ patient.phone }}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Date of Birth:</strong>
+                        {{ patient.date_of_birth }}
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Address:</strong>
+                        {{ patient.address }}
+                    </div>
+
+                    <div class="mt-4">
+
+                        <a
+                            href="{% url 'appointments:appointment_create' %}"
+                            class="btn btn-primary"
+                        >
+                            Book Appointment
+                        </a>
+
+                        <a
+                            href="{% url 'appointments:my_appointments' %}"
+                            class="btn btn-outline-primary ms-2"
+                        >
+                            My Appointments
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

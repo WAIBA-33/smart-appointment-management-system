@@ -1,0 +1,544 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Smart Appointment Management System{% endblock %}
+
+{% block content %}
+
+<!-- ==================== HERO SECTION ==================== -->
+
+<section class="py-5 bg-light">
+
+<div class="container py-5">
+
+    <div class="row align-items-center">
+
+        <!-- Left Side -->
+        <div class="col-lg-7">
+
+            <span class="badge bg-primary mb-3 px-3 py-2">
+                Smart Healthcare Appointment System
+            </span>
+
+            <h1 class="display-4 fw-bold mb-3">
+                Book Your Doctor Appointment
+                <span class="text-primary">Easily.</span>
+            </h1>
+
+            <p class="lead text-muted mb-4">
+                Find available appointment slots, book your preferred
+                time, and manage your appointments in one simple system.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                {% if user.is_authenticated and user.patient %}
+
+                <a href="{% url 'appointments:appointment_create' %}"
+                class="btn btn-primary btn-lg px-4">
+
+                    <i class="bi bi-calendar-check"></i>
+                    Book Appointment
+
+                </a>
+
+                <a href="{% url 'appointments:my_appointments' %}"
+                class="btn btn-outline-primary btn-lg px-4">
+
+                    My Appointments
+
+                </a>
+
+                {% elif user.is_authenticated and user.doctor %}
+
+                <a href="{% url 'appointments:doctor_dashboard' %}"
+                class="btn btn-primary btn-lg px-4">
+
+                    <i class="bi bi-speedometer2"></i>
+                    Doctor Dashboard
+
+                </a>
+
+                {% else %}
+
+                <a href="{% url 'accounts:login' %}"
+                class="btn btn-primary btn-lg px-4">
+
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Get Started
+
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Right Side -->
+        <div class="col-lg-5 mt-5 mt-lg-0">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+                <div class="card-body p-4">
+
+                    <div class="text-center mb-4">
+
+                        <div class="display-3 text-primary">
+                            <i class="bi bi-calendar2-heart"></i>
+                        </div>
+
+                        <h3 class="fw-bold mt-3">
+                            Simple & Smart
+                        </h3>
+
+                        <p class="text-muted">
+                            Manage appointments without the hassle.
+                        </p>
+
+                    </div>
+
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="bg-primary-subtle rounded-circle p-3 me-3">
+                            <i class="bi bi-person-badge text-primary"></i>
+                        </div>
+
+                        <div>
+
+                            <h6 class="mb-1 fw-bold">
+                                Choose a Doctor
+                            </h6>
+
+                            <small class="text-muted">
+                                Select from available doctors.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        <div class="bg-primary-subtle rounded-circle p-3 me-3">
+                            <i class="bi bi-clock text-primary"></i>
+                        </div>
+
+                        <div>
+
+                            <h6 class="mb-1 fw-bold">
+                                Choose a Time
+                            </h6>
+
+                            <small class="text-muted">
+                                View available appointment slots.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="d-flex align-items-center">
+
+                        <div class="bg-primary-subtle rounded-circle p-3 me-3">
+                            <i class="bi bi-check-circle text-primary"></i>
+                        </div>
+
+                        <div>
+
+                            <h6 class="mb-1 fw-bold">
+                                Book Appointment
+                            </h6>
+
+                            <small class="text-muted">
+                                Confirm your appointment easily.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- ==================== FEATURES SECTION ==================== -->
+
+<section class="py-5">
+
+
+<div class="container">
+
+    <div class="text-center mb-5">
+
+        <span class="text-primary fw-semibold">
+            WHY USE OUR SYSTEM?
+        </span>
+
+        <h2 class="fw-bold mt-2">
+            Appointment Management Made Simple
+        </h2>
+
+        <p class="text-muted">
+            Everything you need to manage doctor appointments efficiently.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- Feature 1 -->
+        <div class="col-md-4">
+
+            <div class="card h-100 border-0 shadow-sm text-center p-4">
+
+                <div class="display-5 text-primary mb-3">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+
+                <h4 class="fw-bold">
+                    Easy Booking
+                </h4>
+
+                <p class="text-muted">
+                    Patients can select a doctor, date, and available
+                    appointment time from one simple interface.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Feature 2 -->
+        <div class="col-md-4">
+
+            <div class="card h-100 border-0 shadow-sm text-center p-4">
+
+                <div class="display-5 text-primary mb-3">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+
+                <h4 class="fw-bold">
+                    Smart Availability
+                </h4>
+
+                <p class="text-muted">
+                    The system automatically generates available
+                    time slots based on the doctor's working hours.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- Feature 3 -->
+        <div class="col-md-4">
+
+            <div class="card h-100 border-0 shadow-sm text-center p-4">
+
+                <div class="display-5 text-primary mb-3">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <h4 class="fw-bold">
+                    Conflict Prevention
+                </h4>
+
+                <p class="text-muted">
+                    Already booked appointment slots are automatically
+                    removed to reduce scheduling conflicts.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- ==================== OUR DOCTORS SECTION ==================== -->
+
+<section class="py-5 bg-light">
+
+
+<div class="container">
+
+    <div class="text-center mb-5">
+
+        <span class="text-primary fw-semibold">
+            OUR DOCTORS
+        </span>
+
+        <h2 class="fw-bold mt-2">
+            Meet Our Doctors
+        </h2>
+
+        <p class="text-muted">
+            Choose a doctor and find an appointment time that works for you.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        {% for doctor in doctors %}
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="card h-100 border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <!-- Doctor Icon -->
+                    <div class="text-center mb-3">
+
+                        <div class="bg-primary-subtle rounded-circle
+                                    d-inline-flex align-items-center
+                                    justify-content-center"
+                            style="width: 80px; height: 80px;">
+
+                            <i class="bi bi-person-badge fs-1 text-primary"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Doctor Name -->
+                    <div class="text-center">
+
+                        <h4 class="fw-bold mb-1">
+                            Dr. {{ doctor.name }}
+                        </h4>
+
+                        <p class="text-primary fw-semibold mb-3">
+                            {{ doctor.specialization }}
+                        </p>
+
+                    </div>
+
+
+                    <hr>
+
+
+                    <!-- Phone -->
+                    <div class="mb-2">
+
+                        <i class="bi bi-telephone text-primary me-2"></i>
+
+                        {{ doctor.phone }}
+
+                    </div>
+
+
+                    <!-- Working Hours -->
+                    <div class="mb-3">
+
+                        <i class="bi bi-clock text-primary me-2"></i>
+
+                        {{ doctor.working_start|time:"g:i A" }}
+                        -
+                        {{ doctor.working_end|time:"g:i A" }}
+
+                    </div>
+
+
+                    <!-- Booking Button -->
+                    {% if user.is_authenticated and user.patient %}
+
+                    <a href="{% url 'appointments:appointment_create' %}"
+                    class="btn btn-primary w-100">
+
+                        <i class="bi bi-calendar-check me-1"></i>
+                        Book Appointment
+
+                    </a>
+
+                    {% elif not user.is_authenticated %}
+
+                    <a href="{% url 'accounts:login' %}"
+                    class="btn btn-outline-primary w-100">
+
+                        Login to Book
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% empty %}
+
+        <!-- No Doctors -->
+        <div class="col-12">
+
+            <div class="alert alert-info text-center">
+
+                No doctors are currently available.
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- ==================== HOW IT WORKS ==================== -->
+
+<section class="py-5">
+
+
+<div class="container">
+
+    <div class="text-center mb-5">
+
+        <h2 class="fw-bold">
+            How It Works
+        </h2>
+
+        <p class="text-muted">
+            Book an appointment in three simple steps.
+        </p>
+
+    </div>
+
+
+    <div class="row g-4 text-center">
+
+        <!-- Step 1 -->
+        <div class="col-md-4">
+
+            <div class="display-4 text-primary mb-3">
+                1
+            </div>
+
+            <h5 class="fw-bold">
+                Select a Doctor
+            </h5>
+
+            <p class="text-muted">
+                Choose the doctor you want to visit.
+            </p>
+
+        </div>
+
+
+        <!-- Step 2 -->
+        <div class="col-md-4">
+
+            <div class="display-4 text-primary mb-3">
+                2
+            </div>
+
+            <h5 class="fw-bold">
+                Select a Date & Time
+            </h5>
+
+            <p class="text-muted">
+                View the available 30-minute appointment slots.
+            </p>
+
+        </div>
+
+
+        <!-- Step 3 -->
+        <div class="col-md-4">
+
+            <div class="display-4 text-primary mb-3">
+                3
+            </div>
+
+            <h5 class="fw-bold">
+                Confirm Your Appointment
+            </h5>
+
+            <p class="text-muted">
+                Book the available slot and track your appointment.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</section>
+
+<!-- ==================== CALL TO ACTION ==================== -->
+
+<section class="py-5">
+
+<div class="container">
+
+    <div class="bg-primary text-white rounded-4 p-5 text-center">
+
+        <h2 class="fw-bold">
+            Ready to Book Your Appointment?
+        </h2>
+
+        <p class="mb-4">
+            Check available doctors and appointment slots today.
+        </p>
+
+
+        {% if user.is_authenticated and user.patient %}
+
+        <a href="{% url 'appointments:appointment_create' %}"
+        class="btn btn-light btn-lg px-4">
+
+            Book Appointment
+
+        </a>
+
+
+        {% elif not user.is_authenticated %}
+
+        <a href="{% url 'accounts:login' %}"
+        class="btn btn-light btn-lg px-4">
+
+            Login to Get Started
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+</section>
+
+{% endblock %}

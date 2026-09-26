@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reschedule Appointment | Smart Appointment Management System
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+
+<div class="mb-4">
+
+    <h1>
+        Reschedule Appointment
+    </h1>
+
+    <p class="text-muted">
+        Select a new date and available time for your appointment.
+    </p>
+
+</div>
+
+
+{% if messages %}
+
+    {% for message in messages %}
+
+        <div class="alert alert-info">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <h5 class="card-title">
+            Appointment Details
+        </h5>
+
+        <hr>
+
+        <p>
+            <strong>Doctor:</strong>
+            Dr. {{ appointment.doctor.name }}
+        </p>
+
+        <p>
+            <strong>Specialization:</strong>
+            {{ appointment.doctor.specialization }}
+        </p>
+
+        <p>
+            <strong>Current Date:</strong>
+            {{ appointment.appointment_date }}
+        </p>
+
+        <p>
+            <strong>Current Time:</strong>
+            {{ appointment.appointment_time|time:"g:i a" }}
+        </p>
+
+        <hr>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="mb-3">
+
+                <label
+                    for="appointment_date"
+                    class="form-label"
+                >
+                    New Appointment Date
+                </label>
+
+                <input
+                    type="date"
+                    name="appointment_date"
+                    id="appointment_date"
+                    class="form-control"
+                    value="{{ selected_date|date:'Y-m-d' }}"
+                    required
+                >
+
+            </div>
+
+
+            {% if available_slots %}
+
+                <div class="mb-3">
+
+                    <label
+                        for="appointment_time"
+                        class="form-label"
+                    >
+                        Available Time
+                    </label>
+
+                    <select
+                        name="appointment_time"
+                        id="appointment_time"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select an available time
+                        </option>
+
+                        {% for slot in available_slots %}
+
+                            <option value="{{ slot|time:'H:i:s' }}">
+                                {{ slot|time:"g:i A" }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            {% else %}
+
+                <div class="alert alert-warning">
+                    No available time slots are currently available
+                    for this date.
+                </div>
+
+            {% endif %}
+
+
+            <div class="d-grid gap-2">
+
+                {% if available_slots %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Reschedule Appointment
+                    </button>
+
+                {% endif %}
+
+                <a
+                    href="{% url 'appointments:my_appointments' %}"
+                    class="btn btn-secondary"
+                >
+                    Back to My Appointments
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}
