@@ -1,10 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import login
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from .forms import PatientSignupForm
 from .models import Patient
 
 
@@ -12,7 +12,7 @@ def patient_signup(request):
 
     if request.method == "POST":
 
-        form = UserCreationForm(request.POST)
+        form = PatientSignupForm(request.POST)
 
         if form.is_valid():
 
@@ -20,10 +20,10 @@ def patient_signup(request):
 
             Patient.objects.create(
                 user=user,
-                name=request.POST.get("name"),
-                phone=request.POST.get("phone"),
-                date_of_birth=request.POST.get("date_of_birth"),
-                address=request.POST.get("address"),
+                name=form.cleaned_data["name"],
+                phone=form.cleaned_data["phone"],
+                date_of_birth=form.cleaned_data["date_of_birth"],
+                address=form.cleaned_data["address"],
             )
 
             patients_group = Group.objects.get(
@@ -43,7 +43,7 @@ def patient_signup(request):
 
     else:
 
-        form = UserCreationForm()
+        form = PatientSignupForm()
 
     return render(
         request,

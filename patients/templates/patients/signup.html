@@ -8,7 +8,6 @@ Patient Sign Up | Smart Appointment Management System
 
 <div class="container py-5">
 
-
 <div class="row justify-content-center">
 
     <div class="col-md-7 col-lg-6">
@@ -25,12 +24,14 @@ Patient Sign Up | Smart Appointment Management System
 
                     {% csrf_token %}
 
-                    {% if form.errors %}
+                    <!-- General Errors -->
 
-                    <div class="alert alert-danger">
-                        Please correct the errors below.
-                    </div>
-
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <div>{{ error }}</div>
+                            {% endfor %}
+                        </div>
                     {% endif %}
 
 
@@ -47,13 +48,16 @@ Patient Sign Up | Smart Appointment Management System
                             name="username"
                             id="id_username"
                             class="form-control"
+                            value="{{ form.username.value|default:'' }}"
                             required
                             autofocus
                         >
 
                         {% if form.username.errors %}
                             <div class="text-danger small mt-1">
-                                {{ form.username.errors }}
+                                {% for error in form.username.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
                             </div>
                         {% endif %}
 
@@ -78,7 +82,9 @@ Patient Sign Up | Smart Appointment Management System
 
                         {% if form.password1.errors %}
                             <div class="text-danger small mt-1">
-                                {{ form.password1.errors }}
+                                {% for error in form.password1.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
                             </div>
                         {% endif %}
 
@@ -103,7 +109,9 @@ Patient Sign Up | Smart Appointment Management System
 
                         {% if form.password2.errors %}
                             <div class="text-danger small mt-1">
-                                {{ form.password2.errors }}
+                                {% for error in form.password2.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
                             </div>
                         {% endif %}
 
@@ -114,17 +122,26 @@ Patient Sign Up | Smart Appointment Management System
 
                     <div class="mb-3">
 
-                        <label for="name" class="form-label">
+                        <label for="id_name" class="form-label">
                             Full Name
                         </label>
 
                         <input
                             type="text"
                             name="name"
-                            id="name"
+                            id="id_name"
                             class="form-control"
+                            value="{{ form.name.value|default:'' }}"
                             required
                         >
+
+                        {% if form.name.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.name.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
                     </div>
 
@@ -133,17 +150,27 @@ Patient Sign Up | Smart Appointment Management System
 
                     <div class="mb-3">
 
-                        <label for="phone" class="form-label">
+                        <label for="id_phone" class="form-label">
                             Phone
                         </label>
 
                         <input
-                            type="text"
+                            type="tel"
                             name="phone"
-                            id="phone"
+                            id="id_phone"
                             class="form-control"
+                            value="{{ form.phone.value|default:'' }}"
+                            maxlength="10"
                             required
                         >
+
+                        {% if form.phone.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.phone.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
                     </div>
 
@@ -152,17 +179,26 @@ Patient Sign Up | Smart Appointment Management System
 
                     <div class="mb-3">
 
-                        <label for="date_of_birth" class="form-label">
+                        <label for="id_date_of_birth" class="form-label">
                             Date of Birth
                         </label>
 
                         <input
                             type="date"
                             name="date_of_birth"
-                            id="date_of_birth"
+                            id="id_date_of_birth"
                             class="form-control"
+                            value="{{ form.date_of_birth.value|default:'' }}"
                             required
                         >
+
+                        {% if form.date_of_birth.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.date_of_birth.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
                     </div>
 
@@ -171,20 +207,31 @@ Patient Sign Up | Smart Appointment Management System
 
                     <div class="mb-3">
 
-                        <label for="address" class="form-label">
+                        <label for="id_address" class="form-label">
                             Address
                         </label>
 
                         <input
                             type="text"
                             name="address"
-                            id="address"
+                            id="id_address"
                             class="form-control"
+                            value="{{ form.address.value|default:'' }}"
                             required
                         >
 
+                        {% if form.address.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.address.errors %}
+                                    <div>{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
                     </div>
 
+
+                    <!-- Submit -->
 
                     <button
                         type="submit"
@@ -213,7 +260,6 @@ Patient Sign Up | Smart Appointment Management System
     </div>
 
 </div>
-
 
 </div>
 
