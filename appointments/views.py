@@ -24,7 +24,9 @@ def appointment_create(request):
         return redirect("appointments:doctor_dashboard")
 
     doctors = Doctor.objects.all()
+
     available_slots = []
+    booked_slots = []
 
     selected_doctor = None
     selected_date = None
@@ -57,10 +59,23 @@ def appointment_create(request):
                     "appointments:appointment_create"
                 )
 
+            # Get available slots using the existing algorithm
             available_slots = get_available_slots(
                 selected_doctor,
                 selected_date
             )
+
+            # Get currently booked slots
+            booked_slots = Appointment.objects.filter(
+                doctor=selected_doctor,
+                appointment_date=selected_date,
+                status__in=["Pending", "Confirmed"]
+            ).values_list(
+                "appointment_time",
+                flat=True
+            )
+
+            booked_slots = list(booked_slots)
 
         # Create appointment when a time is selected
         if doctor_id and date_value and time_value:
@@ -116,6 +131,7 @@ def appointment_create(request):
     context = {
         "doctors": doctors,
         "available_slots": available_slots,
+        "booked_slots": booked_slots,
         "selected_doctor": selected_doctor,
         "selected_date": selected_date,
     }
@@ -467,5 +483,32 @@ def reschedule_appointment(request, appointment_id):
             "appointment": appointment,
             "available_slots": available_slots,
             "selected_date": selected_date,
+        }
+    )
+
+@login_required
+def doctor_categories(request):
+
+    selected_specialization = request.GET.get(
+        "specialization"
+    )
+
+    doctors = Doctor.objects.all().order_by(
+        "specialization",
+        "name"
+    )
+
+    if selected_specialization:
+
+        doctors = doctors.filter(
+            specialization=selected_specialization
+        )
+
+    return render(
+        request,
+        "appointments/doctor_categories.html",
+        {
+            "doctors": doctors,
+            "selected_specialization": selected_specialization,
         }
     )

@@ -41,5 +41,11 @@ urlpatterns = [
     name="reschedule_appointment",
     ),
 
+    path(
+    "doctor-categories/",
+    views.doctor_categories,
+    name="doctor_categories",
+    ),
+
 ]
 

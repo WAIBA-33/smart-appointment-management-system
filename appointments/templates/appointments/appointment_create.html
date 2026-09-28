@@ -8,182 +8,220 @@ Book Appointment | Smart Appointment Management System
 
 <div class="container py-5">
 
-<div class="row justify-content-center">
+    <div class="row justify-content-center">
 
-    <div class="col-md-8 col-lg-7">
+        <div class="col-md-8 col-lg-7">
 
-        <div class="card shadow border-0">
+            <div class="card shadow border-0">
 
-            <div class="card-body p-4">
+                <div class="card-body p-4">
 
-                <h2 class="mb-4 text-center">
-                    Book an Appointment
-                </h2>
+                    <h2 class="mb-4 text-center">
+                        Book an Appointment
+                    </h2>
 
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+                    {% if messages %}
 
+                        {% for message in messages %}
 
-                <form method="POST" id="appointmentForm">
-
-                    {% csrf_token %}
-
-
-                    <!-- Doctor -->
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Select Doctor
-                        </label>
-
-                        <select
-                            name="doctor"
-                            id="doctorSelect"
-                            class="form-select"
-                            required
-                        >
-
-                            <option value="">
-                                Select a doctor
-                            </option>
-
-                            {% for doctor in doctors %}
-
-                                <option
-                                    value="{{ doctor.id }}"
-                                    {% if selected_doctor and selected_doctor.id == doctor.id %}
-                                        selected
-                                    {% endif %}
-                                >
-
-                                    {{ doctor.name }} -
-                                    {{ doctor.specialization }}
-
-                                </option>
-
-                            {% endfor %}
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- Appointment Date -->
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Appointment Date
-                        </label>
-
-                        <input
-                            type="date"
-                            name="appointment_date"
-                            id="appointmentDate"
-                            class="form-control"
-                            value="{{ selected_date|date:'Y-m-d' }}"
-                            required
-                        >
-
-                        <div
-                            id="dateMessage"
-                            class="mt-2"
-                        ></div>
-
-                    </div>
-
-
-                    <!-- Check Slots -->
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary w-100"
-                        id="checkSlotsButton"
-                    >
-                        Check Available Slots
-                    </button>
-
-
-                    <!-- Available Slots -->
-
-                    {% if selected_doctor and selected_date %}
-
-                        <hr class="my-4">
-
-                        <h5 class="mb-3">
-                            Available Time Slots
-                        </h5>
-
-
-                        {% if available_slots %}
-
-                            <div
-                                id="timeSlots"
-                                class="d-flex flex-wrap gap-2"
-                            >
-
-                                {% for slot in available_slots %}
-
-                                    <button
-                                        type="button"
-                                        class="btn btn-outline-primary time-slot"
-                                        data-time="{{ slot|time:'H:i:s' }}"
-                                    >
-
-                                        {{ slot|time:'h:i A' }}
-
-                                    </button>
-
-                                {% endfor %}
-
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
                             </div>
 
-
-                            <!-- Selected time -->
-
-                            <input
-                                type="hidden"
-                                name="appointment_time"
-                                id="selectedTime"
-                            >
-
-
-                            <!-- Booking button -->
-
-                            <button
-                                type="submit"
-                                class="btn btn-success w-100 mt-4 d-none"
-                                id="bookButton"
-                            >
-                                Book Selected Time
-                            </button>
-
-
-                            <!-- Selected time message -->
-
-                            <div
-                                id="selectedTimeMessage"
-                                class="alert alert-info mt-3 d-none"
-                            ></div>
-
-
-                        {% else %}
-
-                            <div class="alert alert-warning">
-                                No available slots for this date.
-                            </div>
-
-                        {% endif %}
+                        {% endfor %}
 
                     {% endif %}
 
-                </form>
+                    <form method="POST" id="appointmentForm">
+
+                        {% csrf_token %}
+
+                        <!-- Doctor -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Select Doctor
+                            </label>
+
+                            <select
+                                name="doctor"
+                                id="doctorSelect"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select a doctor
+                                </option>
+
+                                {% for doctor in doctors %}
+
+                                    <option
+                                        value="{{ doctor.id }}"
+                                        {% if selected_doctor and selected_doctor.id == doctor.id %}
+                                            selected
+                                        {% endif %}
+                                    >
+
+                                        {{ doctor.name }} -
+                                        {{ doctor.specialization }}
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- Appointment Date -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Appointment Date
+                            </label>
+
+                            <input
+                                type="date"
+                                name="appointment_date"
+                                id="appointmentDate"
+                                class="form-control"
+                                value="{{ selected_date|date:'Y-m-d' }}"
+                                required
+                            >
+
+                            <div
+                                id="dateMessage"
+                                class="mt-2"
+                            ></div>
+
+                        </div>
+
+
+                        <!-- Check Slots -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100"
+                            id="checkSlotsButton"
+                        >
+                            Check Available Slots
+                        </button>
+
+
+                        <!-- Time Slots -->
+
+                        {% if selected_doctor and selected_date %}
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3">
+                                Appointment Time Slots
+                            </h5>
+
+
+                            <!-- Slot Legend -->
+
+                            <div class="mb-3">
+
+                                <span class="badge bg-success me-2">
+                                    Available
+                                </span>
+
+                                <span class="badge bg-danger me-2">
+                                    Booked
+                                </span>
+
+                                <span class="badge bg-primary">
+                                    Selected
+                                </span>
+
+                            </div>
+
+
+                            {% if available_slots or booked_slots %}
+
+                                <div
+                                    id="timeSlots"
+                                    class="d-flex flex-wrap gap-2"
+                                >
+
+                                    <!-- Available Slots -->
+
+                                    {% for slot in available_slots %}
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-success time-slot"
+                                            data-time="{{ slot|time:'H\:i:s' }}"
+                                        >
+                                            {{ slot|time:'h\:i A' }}
+                                        </button>
+
+                                    {% endfor %}
+
+
+                                    <!-- Booked Slots -->
+
+                                    {% for slot in booked_slots %}
+
+                                        <button
+                                            type="button"
+                                            class="btn btn-danger"
+                                            disabled
+                                        >
+                                            {{ slot|time:'h\:i A' }}
+                                        </button>
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                                <!-- Selected time -->
+
+                                <input
+                                    type="hidden"
+                                    name="appointment_time"
+                                    id="selectedTime"
+                                >
+
+
+                                <!-- Booking button -->
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-success w-100 mt-4 d-none"
+                                    id="bookButton"
+                                >
+                                    Book Selected Time
+                                </button>
+
+
+                                <!-- Selected time message -->
+
+                                <div
+                                    id="selectedTimeMessage"
+                                    class="alert alert-info mt-3 d-none"
+                                ></div>
+
+
+                            {% else %}
+
+                                <div class="alert alert-warning">
+                                    No available slots for this date.
+                                </div>
+
+                            {% endif %}
+
+                        {% endif %}
+
+                    </form>
+
+                </div>
 
             </div>
 
@@ -193,8 +231,6 @@ Book Appointment | Smart Appointment Management System
 
 </div>
 
-
-</div>
 
 <!-- JavaScript -->
 
@@ -221,43 +257,34 @@ Book Appointment | Smart Appointment Management System
 
         slot.addEventListener("click", function() {
 
-            // Remove selection from all slots
-
+            // Remove selection from all available slots
             timeSlots.forEach(function(button) {
 
                 button.classList.remove("btn-primary");
 
-                button.classList.add(
-                    "btn-outline-primary"
-                );
+                button.classList.add("btn-success");
 
             });
 
 
             // Highlight selected slot
-
-            this.classList.remove(
-                "btn-outline-primary"
-            );
+            this.classList.remove("btn-success");
 
             this.classList.add("btn-primary");
 
 
             // Store selected time
-
             selectedTimeInput.value =
                 this.dataset.time;
 
 
             // Show booking button
-
             bookButton.classList.remove(
                 "d-none"
             );
 
 
             // Show selected time
-
             selectedTimeMessage.classList.remove(
                 "d-none"
             );
@@ -290,17 +317,16 @@ Book Appointment | Smart Appointment Management System
             dateMessage.innerHTML = "";
 
             return true;
+
         }
 
 
         // Get today's date
-
         const today =
             new Date().toISOString().split("T")[0];
 
 
         // Check if selected date is in the past
-
         if (appointmentDate.value < today) {
 
             dateMessage.innerHTML =
@@ -314,7 +340,6 @@ Book Appointment | Smart Appointment Management System
 
 
         // Valid date
-
         dateMessage.innerHTML =
             '<div class="text-success">' +
             '✓ Valid appointment date.' +
@@ -326,7 +351,6 @@ Book Appointment | Smart Appointment Management System
 
 
     // Validate when date changes
-
     appointmentDate.addEventListener(
         "change",
         validateDate
@@ -334,7 +358,6 @@ Book Appointment | Smart Appointment Management System
 
 
     // Validate when form is submitted
-
     document.getElementById("appointmentForm")
         .addEventListener(
             "submit",
